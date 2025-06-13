@@ -25,3 +25,15 @@ Dependencies are managed with npm. To install D3 locally run:
 ```bash
 npm install
 ```
+
+### Generating genre data
+
+A Node script can fetch genre information from the Discogs API and build a JSON tree.
+Create a `.env` file from `.env.example` and provide your Discogs token, then run:
+
+```bash
+npm run build:genres
+```
+
+This outputs `genres.json` in the project root which can be used by the application.
+
