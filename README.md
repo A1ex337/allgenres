@@ -1,10 +1,10 @@
 # All Genres
 
-This project provides a simple static website that visualizes music genres as a tree. Clicking on a genre loads a Spotify playlist with representative tracks of that genre.
+This project provides a static website that visualizes music genres as an interactive tree. The site now contains dozens of styles so you can explore how they relate. Selecting a node loads a Spotify playlist for that genre in the embedded player.
 
 ## Usage
 
-Open `public/index.html` in a web browser. The page contains an interactive tree. Select a genre node to play a Spotify playlist in the embedded player below the tree.
+Open `public/index.html` in a web browser. Select a genre node to load its playlist. The Spotify player appears below the tree.
 
 ## Development
 
