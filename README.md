@@ -4,7 +4,7 @@ This project provides a static website that visualizes music genres as an intera
 
 ## Usage
 
-Open `public/index.html` in a web browser. Select a genre node to load its playlist. The Spotify player appears below the tree.
+Open `public/index.html` in a web browser. Select a genre node to load its playlist. The Spotify player now sits in a slim bar at the bottom of the page so the genre map can fill the screen.
 
 ### Local server
 
@@ -35,5 +35,5 @@ Create a `.env` file from `.env.example` and provide your Discogs token, then ru
 npm run build:genres
 ```
 
-This outputs `genres.json` in the project root which can be used by the application.
+The script automatically iterates through all available pages so the resulting `genres.json` can contain thousands of entries. This file can then be loaded by the website.
 

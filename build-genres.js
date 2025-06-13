@@ -9,7 +9,7 @@ const DISCOGS_TOKEN = process.env.DISCOGS_TOKEN;
 const SPOTIFY_TEMPLATE_ID = 'YOUR_SPOTIFY_TEMPLATE_ID';
 
 async function fetchDiscogs(path) {
-  const res = await fetch(`https://api.discogs.com/${path}&per_page=100&page=1`, {
+  const res = await fetch(`https://api.discogs.com/${path}`, {
     headers: { 'Authorization': `Discogs token=${DISCOGS_TOKEN}` }
   });
   if (!res.ok) {
@@ -18,12 +18,24 @@ async function fetchDiscogs(path) {
   return res.json();
 }
 
+async function fetchAll(path) {
+  let page = 1;
+  let all = [];
+  while (true) {
+    const data = await fetchDiscogs(`${path}&per_page=100&page=${page}`);
+    all = all.concat(data.results);
+    if (!data.pagination || page >= data.pagination.pages) break;
+    page++;
+  }
+  return all;
+}
+
 async function main() {
-  const genres = await fetchDiscogs('database/genres?token=' + DISCOGS_TOKEN);
-  const styles = await fetchDiscogs('database/styles?token=' + DISCOGS_TOKEN);
+  const genres = await fetchAll('database/genres?token=' + DISCOGS_TOKEN);
+  const styles = await fetchAll('database/styles?token=' + DISCOGS_TOKEN);
 
   const subgenresMap = {};
-  for (const style of styles.results) {
+  for (const style of styles) {
     for (const parent of style.genre) {
       if (!subgenresMap[parent]) subgenresMap[parent] = [];
       subgenresMap[parent].push({
@@ -40,7 +52,7 @@ async function main() {
     name: 'Music Genres',
     description: 'Все жанры и стили по данным Discogs',
     playlistUrl: `https://open.spotify.com/playlist/${SPOTIFY_TEMPLATE_ID}`,
-    subgenres: genres.results.map(g => ({
+    subgenres: genres.map(g => ({
       name: g.name,
       description: g.id ? `Discogs genre #${g.id}` : '',
       playlistUrl: `https://open.spotify.com/playlist/${SPOTIFY_TEMPLATE_ID}`,
@@ -51,7 +63,7 @@ async function main() {
   };
 
   fs.writeFileSync('genres.json', JSON.stringify(tree, null, 2), 'utf-8');
-  console.log(`✅ Сгенерирован genres.json с ${tree.subgenres.length} жанрами и их поджанрами.`);
+  console.log(`✅ Сгенерирован genres.json c ${tree.subgenres.length} жанрами и их поджанрами.`);
 }
 
 main().catch(err => {

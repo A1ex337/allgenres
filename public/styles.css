@@ -2,29 +2,25 @@ body {
     font-family: "Helvetica Neue", Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #485563 0%, #29323c 100%);
-    color: #eee;
-    min-height: 100vh;
-}
-
-#container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    text-align: center;
+    color: #333;
+    background: #f4f4f4;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 #tree {
+    flex: 1;
+    position: relative;
+}
+
+#tree svg {
     width: 100%;
-    height: 600px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background-color: rgba(255,255,255,0.05);
-    backdrop-filter: blur(4px);
-    border-radius: 6px;
+    height: 100%;
 }
 
 .node circle.play-circle {
-    fill: #2ecc71;
+    fill: #7c98b3;
     cursor: pointer;
     stroke: #fff;
     stroke-width: 1.5px;
@@ -37,21 +33,28 @@ body {
 .node text {
     font-size: 14px;
     pointer-events: none;
-    fill: #fff;
+    fill: #333;
 }
 
 .link {
-    stroke: rgba(255,255,255,0.5);
+    stroke: #bbb;
 }
 
 #player-container {
-    margin-top: 20px;
-    background-color: rgba(0,0,0,0.3);
-    padding: 20px;
-    border-radius: 6px;
-    display: inline-block;
+    background: #fff;
+    border-top: 1px solid #ccc;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#player {
+    width: 300px;
+    height: 80px;
 }
 
 h1 {
-    margin-top: 0;
+    margin: 16px;
+    text-align: center;
 }

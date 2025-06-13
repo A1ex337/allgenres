@@ -56,7 +56,7 @@ function buildTree() {
 
                 let handled = false;
                 player.addEventListener('load', () => { handled = true; log(`Player loaded: ${src}`); }, { once: true });
-                player.addEventListener('error', () => { handled = true; log(`Player failed: ${src}`); }, { once: true });
+                player.addEventListener('error', () => { handled = true; log(`Player failed: ${src}`); log('The Spotify embed may be blocked or require login.'); }, { once: true });
 
                 // detect a load timeout in case neither event fires
                 setTimeout(() => {
