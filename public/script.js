@@ -47,30 +47,51 @@ function buildTree() {
         .attr('class', 'node')
         .attr('transform', d => `translate(${d.y},${d.x})`)
         .on('click', (event, d) => {
-            // url may be stored on the node itself after layout
-            const url = d.spotify || d.data.spotify;
+            const explicit = d.spotify || d.data.spotify;
             log(`Clicked ${d.data.id}`);
-            if (url) {
-                const player = document.getElementById('player');
-                const src = url.includes('?') ? `${url}&autoplay=1` : `${url}?autoplay=1`;
+            const player = document.getElementById('player');
+            const message = document.getElementById('status-message');
 
-                let handled = false;
-                player.addEventListener('load', () => { handled = true; log(`Player loaded: ${src}`); }, { once: true });
-                player.addEventListener('error', () => { handled = true; log(`Player failed: ${src}`); log('The Spotify embed may be blocked or require login.'); }, { once: true });
-
-                // detect a load timeout in case neither event fires
-                setTimeout(() => {
-                    if (!handled && player.src === src) {
-                        log(`Player timeout for ${src}`);
-                    }
-                }, 5000);
-
-                player.src = src;
-                document.getElementById('genre-title').textContent = d.data.id;
-                log(`Loading "${d.data.id}" -> ${src}`);
+            let url;
+            if (explicit) {
+                url = explicit;
+                message.textContent = '';
+                message.classList.add('hidden');
             } else {
-                log(`No playlist for ${d.data.id}`);
+                url = `https://open.spotify.com/embed?uri=spotify:search:${encodeURIComponent(d.data.id)}`;
+                message.textContent = `Searching Spotify for "${d.data.id}"...`;
+                message.classList.remove('hidden');
             }
+
+            const src = url.includes('?') ? `${url}&autoplay=1` : `${url}?autoplay=1`;
+
+            let handled = false;
+            player.addEventListener('load', () => {
+                handled = true;
+                message.textContent = '';
+                message.classList.add('hidden');
+                log(`Player loaded: ${src}`);
+            }, { once: true });
+
+            player.addEventListener('error', () => {
+                handled = true;
+                message.textContent = 'Failed to load music';
+                message.classList.remove('hidden');
+                log(`Player failed: ${src}`);
+                log('The Spotify embed may be blocked or require login.');
+            }, { once: true });
+
+            setTimeout(() => {
+                if (!handled && player.src === src) {
+                    message.textContent = 'Music load timed out';
+                    message.classList.remove('hidden');
+                    log(`Player timeout for ${src}`);
+                }
+            }, 5000);
+
+            player.src = src;
+            document.getElementById('genre-title').textContent = d.data.id;
+            log(`Loading "${d.data.id}" -> ${src}`);
         });
 
     node.append('circle')

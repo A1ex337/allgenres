@@ -4,7 +4,7 @@ This project provides a static website that visualizes music genres as an intera
 
 ## Usage
 
-Open `public/index.html` in a web browser. Select a genre node to load its playlist. The Spotify player now sits in a slim bar at the bottom of the page so the genre map can fill the screen.
+Open `public/index.html` in a web browser. Select a genre node to load music. The Spotify player sits in a slim bar at the bottom of the page so the genre map can fill the screen. If the genre does not have an associated playlist the app will automatically search Spotify for that term.
 
 ### Local server
 
@@ -16,7 +16,7 @@ server:
 npx serve public
 ```
 
-Open the browser console to view diagnostic logs when selecting genres.
+Open the browser console to view diagnostic logs when selecting genres. These logs indicate when the player fails to load or search results cannot be played.
 
 ## Development
 
