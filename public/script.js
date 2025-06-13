@@ -1,5 +1,6 @@
-const width = document.getElementById('tree').clientWidth;
-const height = document.getElementById('tree').clientHeight;
+const treeEl = document.getElementById('tree');
+const width = treeEl.clientWidth;
+const height = treeEl.clientHeight;
 const svg = d3.select('#tree').append('svg')
     .attr('width', width)
     .attr('height', height);
@@ -16,6 +17,10 @@ const rootNode = treeLayout(d3.hierarchy(root))
     });
 
 const g = svg.append('g').attr('transform', 'translate(80,20)');
+
+svg.call(d3.zoom().on('zoom', (event) => {
+    g.attr('transform', event.transform);
+}));
 
 const link = g.selectAll('.link')
     .data(rootNode.links())
@@ -35,10 +40,11 @@ const node = g.selectAll('.node')
     .append('g')
     .attr('class', 'node')
     .attr('transform', d => `translate(${d.y},${d.x})`)
-    .on('click', d => {
+    .on('click', (event, d) => {
         const url = d.data.spotify;
         if (url) {
-            document.getElementById('player').src = url;
+            const src = url.includes('?') ? `${url}&autoplay=1` : `${url}?autoplay=1`;
+            document.getElementById('player').src = src;
             document.getElementById('genre-title').textContent = d.data.id;
         }
     });
