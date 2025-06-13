@@ -47,7 +47,8 @@ function buildTree() {
         .attr('class', 'node')
         .attr('transform', d => `translate(${d.y},${d.x})`)
         .on('click', (event, d) => {
-            const url = d.data.spotify;
+            // url may be stored on the node itself after layout
+            const url = d.spotify || d.data.spotify;
             log(`Clicked ${d.data.id}`);
             if (url) {
                 const player = document.getElementById('player');
