@@ -13,5 +13,3 @@ Dependencies are managed with npm. To install D3 locally run:
 ```bash
 npm install
 ```
-
-D3's bundled file is copied from `node_modules` into `public/d3.min.js`.

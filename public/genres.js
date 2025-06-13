@@ -56,4 +56,4 @@ const genres = [
   { name: "World", parent: "Music", spotify: "https://open.spotify.com/embed/playlist/37i9dQZF1DX4Wsb4d7NKfP" },
   { name: "Afrobeat", parent: "World", spotify: "https://open.spotify.com/embed/playlist/37i9dQZF1DX4Wsb4d7NKfP" },
   { name: "Klezmer", parent: "World", spotify: "https://open.spotify.com/embed/playlist/37i9dQZF1DX7Y7BqFok9IQ" }
-];
+]
