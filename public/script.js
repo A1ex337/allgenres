@@ -59,7 +59,13 @@ function buildTree() {
         });
 
     node.append('circle')
-        .attr('r', 5);
+        .attr('r', 9)
+        .attr('class', 'play-circle');
+
+    // draw a play icon triangle inside each node
+    node.append('polygon')
+        .attr('points', '-3,-5 5,0 -3,5')
+        .attr('class', 'play-icon');
 
     node.append('text')
         .attr('dy', 3)
@@ -72,5 +78,8 @@ function buildTree() {
 
 window.addEventListener('DOMContentLoaded', () => {
     log('DOM loaded');
+    const player = document.getElementById('player');
+    player.addEventListener('load', () => log('Player loaded'));
+    player.addEventListener('error', () => log('Error loading player'));
     buildTree();
 });
