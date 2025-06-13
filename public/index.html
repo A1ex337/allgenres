@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Genres Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="container">
+        <h1>Music Genres Tree</h1>
+        <div id="tree"></div>
+        <div id="player-container">
+            <h2 id="genre-title">Select a genre to listen</h2>
+            <iframe id="player" width="300" height="380" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+        </div>
+    </div>
+    <script src="d3.min.js"></script>
+    <script src="genres.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
