@@ -47,19 +47,40 @@ function buildTree() {
         .attr('class', 'node')
         .attr('transform', d => `translate(${d.y},${d.x})`)
         .on('click', (event, d) => {
-            const url = d.data.spotify;
+            // url may be stored on the node itself after layout
+            const url = d.spotify || d.data.spotify;
+            log(`Clicked ${d.data.id}`);
             if (url) {
+                const player = document.getElementById('player');
                 const src = url.includes('?') ? `${url}&autoplay=1` : `${url}?autoplay=1`;
-                document.getElementById('player').src = src;
+
+                let handled = false;
+                player.addEventListener('load', () => { handled = true; log(`Player loaded: ${src}`); }, { once: true });
+                player.addEventListener('error', () => { handled = true; log(`Player failed: ${src}`); log('The Spotify embed may be blocked or require login.'); }, { once: true });
+
+                // detect a load timeout in case neither event fires
+                setTimeout(() => {
+                    if (!handled && player.src === src) {
+                        log(`Player timeout for ${src}`);
+                    }
+                }, 5000);
+
+                player.src = src;
                 document.getElementById('genre-title').textContent = d.data.id;
-                log(`Playing "${d.data.id}" -> ${src}`);
+                log(`Loading "${d.data.id}" -> ${src}`);
             } else {
                 log(`No playlist for ${d.data.id}`);
             }
         });
 
     node.append('circle')
-        .attr('r', 5);
+        .attr('r', 9)
+        .attr('class', 'play-circle');
+
+    // draw a play icon triangle inside each node
+    node.append('polygon')
+        .attr('points', '-3,-5 5,0 -3,5')
+        .attr('class', 'play-icon');
 
     node.append('text')
         .attr('dy', 3)
