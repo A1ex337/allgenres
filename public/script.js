@@ -1,4 +1,4 @@
-const treeEl = document.getElementById('tree');
+onst treeEl = document.getElementById('tree');
 const width = treeEl.clientWidth;
 const height = treeEl.clientHeight;
 const svg = d3.select('#tree').append('svg')
