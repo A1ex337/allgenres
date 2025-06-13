@@ -6,6 +6,18 @@ This project provides a static website that visualizes music genres as an intera
 
 Open `public/index.html` in a web browser. Select a genre node to load its playlist. The Spotify player appears below the tree.
 
+### Local server
+
+Some browsers block embedded content when opened from the local filesystem. If
+the player doesn't appear, serve the `public` folder using a lightweight web
+server:
+
+```bash
+npx serve public
+```
+
+Open the browser console to view diagnostic logs when selecting genres.
+
 ## Development
 
 Dependencies are managed with npm. To install D3 locally run:

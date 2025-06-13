@@ -48,11 +48,25 @@ function buildTree() {
         .attr('transform', d => `translate(${d.y},${d.x})`)
         .on('click', (event, d) => {
             const url = d.data.spotify;
+            log(`Clicked ${d.data.id}`);
             if (url) {
+                const player = document.getElementById('player');
                 const src = url.includes('?') ? `${url}&autoplay=1` : `${url}?autoplay=1`;
-                document.getElementById('player').src = src;
+
+                let handled = false;
+                player.addEventListener('load', () => { handled = true; log(`Player loaded: ${src}`); }, { once: true });
+                player.addEventListener('error', () => { handled = true; log(`Player failed: ${src}`); }, { once: true });
+
+                // detect a load timeout in case neither event fires
+                setTimeout(() => {
+                    if (!handled && player.src === src) {
+                        log(`Player timeout for ${src}`);
+                    }
+                }, 5000);
+
+                player.src = src;
                 document.getElementById('genre-title').textContent = d.data.id;
-                log(`Playing "${d.data.id}" -> ${src}`);
+                log(`Loading "${d.data.id}" -> ${src}`);
             } else {
                 log(`No playlist for ${d.data.id}`);
             }
@@ -78,8 +92,5 @@ function buildTree() {
 
 window.addEventListener('DOMContentLoaded', () => {
     log('DOM loaded');
-    const player = document.getElementById('player');
-    player.addEventListener('load', () => log('Player loaded'));
-    player.addEventListener('error', () => log('Error loading player'));
     buildTree();
 });
